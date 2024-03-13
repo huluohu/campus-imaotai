@@ -9,42 +9,74 @@
 
 <h2 align="center">Campus-imaotai</h2>
 
-  [笔记仓库](https://github.com/oddfar/notes)  |  [我的博客](https://oddfar.com)  
+[笔记仓库](https://github.com/oddfar/notes)  |  [我的博客](https://oddfar.com)
 
 ## 项目介绍
 
 i茅台app，每日自动预约茅台
 
-- [x] 平台注册账号
-- [x] 添加多个用户
-- [x] 自动预约
-- [x] 类型选择（本市出货量最大的门店，或位置附近门店）
-- [x] 自动旅行
-- [x] 首次旅行分享
-- [x] 获取申购耐力值
-- [x] 自定义时间/随机时间预约或旅行
-- [x] 申购结果消息推送
+- [X] 平台注册账号
+- [X] 添加多个用户
+- [X] 自动预约
+- [X] 类型选择（本市出货量最大的门店，或位置附近门店）
+- [X] 自动旅行
+- [X] 首次旅行分享
+- [X] 获取申购耐力值
+- [X] 自定义时间/随机时间预约或旅行
+- [X] 申购结果消息推送
 
-此项目使用 **Campus** 进行编写：<https://github.com/oddfar/campus>
+此项目使用 **Campus** 进行编写：[https://github.com/oddfar/campus](https://github.com/oddfar/campus)
+
+## 快速开始
+
+#### 部署后端
+
+```yaml
+version: '3.9'
+services:
+    campus-imaotai:
+        image: oddfar/campus-imaotai:latest
+        container_name: campus
+        restart: unless-stopped
+        network_mode: bridge
+        environment:
+            - TZ=Asia/Shanghai
+            - SERVER_PORT=8160
+            - spring.config.additional-location=/home/campus/conf/application-prod.yml 
+        ports:
+            - '8160:8160'
+        volumes:
+            - /share/Container/campus/conf:/home/campus/conf
+```
+
+#### 前端打包
+
+```bash
+# Clone代码
+git clone https://github.com/oddfar/campus.git
+
+# 切换到前端目录
+cd vue_campus_admin
+
+# 安装依赖
+npm install
+
+# 打包
+npm run build:prod
+```
 
 ## 文档
 
 - 文档：https://oddfar.github.io/campus-doc/campus-imaotai
-
 - 视频：https://www.bilibili.com/video/BV1dj411H7oT
-
 
 ## 演示图
 
-
-
-| i茅台预约                                                    |                                                              |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| i茅台预约                                                                                                         |                                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | ![image-20230707144241399](https://gcore.jsdelivr.net/gh/oddfar/campus-imaotai/.github/image-20230707144241399.png) | ![image-20230707144404638](https://gcore.jsdelivr.net/gh/oddfar/campus-imaotai/.github/image-20230707144404638.png) |
-|                                                              |                                                              |
+|                                                                                                                   |                                                                                                                   |
 | ![image-20230707144703842](https://gcore.jsdelivr.net/gh/oddfar/campus-imaotai/.github/image-20230707144703842.png) | ![image-20230707145525709](https://gcore.jsdelivr.net/gh/oddfar/campus-imaotai/.github/image-20230707145525709.png) |
-
-
 
 ## 贡献代码
 
@@ -66,8 +98,7 @@ i茅台app，每日自动预约茅台
 
 - 本项目其他版
 
-  C#：<https://github.com/lisongkun/hygge-imaotai>
-
+  C#：[https://github.com/lisongkun/hygge-imaotai](https://github.com/lisongkun/hygge-imaotai)
 - 葫芦娃项目
 
   yize8888-maotai：https://github.com/yize8888/maotai
@@ -85,8 +116,5 @@ i茅台app，每日自动预约茅台
 
 > [IntelliJ IDEA](https://zh.wikipedia.org/zh-hans/IntelliJ_IDEA) 是一个在各个方面都最大程度地提高开发人员的生产力的 IDE，适用于 JVM 平台语言。
 
-特别感谢 [JetBrains](https://www.jetbrains.com/?from=campus) 为开源项目提供免费的 [IntelliJ IDEA](https://www.jetbrains.com/idea/?from=campus) 等 IDE 的授权    
+特别感谢 [JetBrains](https://www.jetbrains.com/?from=campus) 为开源项目提供免费的 [IntelliJ IDEA](https://www.jetbrains.com/idea/?from=campus) 等 IDE 的授权
 [<img src="https://gcore.jsdelivr.net/gh/oddfar/campus-imaotai/.github/jetbrains-variant.png" width="200"/>](https://www.jetbrains.com/?from=campus)
-
-
-
