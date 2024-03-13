@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: 'campus',
+      title: '毛抬大师',
       logo: logoImg
     }
   }
