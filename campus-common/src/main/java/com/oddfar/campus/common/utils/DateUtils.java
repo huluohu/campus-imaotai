@@ -24,6 +24,8 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
     public static String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
+    public static String MM_DD_HH_MM_SS = "MM-dd HH:mm:ss";
+
     private static String[] parsePatterns = {
             "yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM",
             "yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM",
@@ -66,6 +68,13 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     public static final String parseDateToStr(final String format, final Date date) {
         return new SimpleDateFormat(format).format(date);
     }
+
+    public static final String parseStampToStr(String format, Long stamp) {
+        if (stamp == null)
+            return null;
+        return parseDateToStr(format, new Date(stamp.longValue()));
+    }
+
 
     public static final Date dateTime(final String format, final String ts) {
         try {
