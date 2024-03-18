@@ -1,6 +1,7 @@
 package com.oddfar.campus.huluwa.service.impl;
 
 import com.oddfar.campus.common.domain.PageResult;
+import com.oddfar.campus.common.utils.SecurityUtils;
 import com.oddfar.campus.common.utils.StringUtils;
 import com.oddfar.campus.huluwa.domain.ChannelActivity;
 import com.oddfar.campus.huluwa.domain.ChannelInfo;
@@ -58,6 +59,10 @@ public class UserPlatformServiceImpl implements IUserPlatformService {
     }
 
     public PageResult<UserPlatform> page(UserPlatform userPlatform) {
+        Long loginUserId = SecurityUtils.getUserId();
+        if (loginUserId != 1) {
+            return this.userPlatformMapper.selectPage(userPlatform,loginUserId);
+        }
         return this.userPlatformMapper.selectPage(userPlatform);
     }
 

@@ -17,4 +17,15 @@ public interface IUserPlatformMapper extends BaseMapperX<UserPlatform> {
 
                 .orderByDesc(UserPlatform::getStamp));
     }
+
+    default PageResult<UserPlatform> selectPage(UserPlatform userPlatform,Long loginUserId) {
+        return selectPage(new LambdaQueryWrapperX<UserPlatform>()
+                .eqIfPresent(UserPlatform::getCreateUser, loginUserId)
+                .eqIfPresent(UserPlatform::getPhone, userPlatform.getPhone())
+                .eqIfPresent(UserPlatform::getPlatform, userPlatform.getPlatform())
+                .likeIfPresent(UserPlatform::getNickName, userPlatform.getNickName())
+                .likeIfPresent(UserPlatform::getRealName, userPlatform.getRealName())
+
+                .orderByDesc(UserPlatform::getStamp));
+    }
 }

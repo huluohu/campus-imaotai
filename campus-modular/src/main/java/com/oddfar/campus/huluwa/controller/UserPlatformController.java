@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserPlatformController {
     @Resource
     private IUserPlatformService userPlatformService;
-    @GetMapping({"/page"})
+    @GetMapping(value="/page",name = "查询用户绑定的平台")
+    @PreAuthorize("@ss.resourceAuth()")
     public R page(UserPlatform userPlatform) {
+
         return R.ok().put(this.userPlatformService.page(userPlatform));
     }
 
@@ -33,7 +35,7 @@ public class UserPlatformController {
     }
 
     @DeleteMapping({"/id/{id}"})
-    public R add(@PathVariable("id") Long id) {
+    public R delete(@PathVariable("id") Long id) {
         return R.ok(Integer.valueOf(this.userPlatformService.delete(id)));
     }
 
