@@ -55,6 +55,11 @@ public class IUserServiceImpl implements IUserService {
     }
 
     @Override
+    public IUser getUserById(String mobile) {
+        return iUserMapper.selectById(mobile);
+    }
+
+    @Override
     public List<IUser> selectReservationUser() {
         return iUserMapper.selectReservationUser();
 

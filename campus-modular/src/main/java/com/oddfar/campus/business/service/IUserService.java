@@ -19,6 +19,14 @@ public interface IUserService {
      */
     int insertIUser(Long mobile, String deviceId, JSONObject body);
 
+
+    /**
+     * 根据用户ID查询
+     * @param mobile
+     * @return
+     */
+    IUser getUserById(String mobile);
+
     /**
      * 查询预约用户列表
      *

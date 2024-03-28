@@ -14,7 +14,6 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.oddfar.campus.business.entity.IUser;
-import com.oddfar.campus.business.mapper.IUserMapper;
 import com.oddfar.campus.business.service.IMTLogFactory;
 import com.oddfar.campus.business.service.IMTService;
 import com.oddfar.campus.business.service.IShopService;
@@ -32,23 +31,15 @@ import javax.annotation.PostConstruct;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Random;
 
 @Service
 public class IMTServiceImpl implements IMTService {
 
     private static final Logger logger = LoggerFactory.getLogger(IMTServiceImpl.class);
-
-    @Autowired
-    private IUserMapper iUserMapper;
 
     @Autowired
     private RedisCache redisCache;
@@ -151,7 +142,7 @@ public class IMTServiceImpl implements IMTService {
 
         HttpRequest request = HttpUtil.createRequest(Method.POST,
                 "https://app.moutai519.com.cn/xhr/front/user/register/login");
-        IUser user = iUserMapper.selectById(mobile);
+        IUser user = iUserService.getUserById(mobile);
         if (user != null) {
             deviceId = user.getDeviceId();
         }
@@ -210,7 +201,7 @@ public class IMTServiceImpl implements IMTService {
 //            logContent += "执行报错--[申购耐力值]:" + e.getMessage();
 //        }
         //日志记录
-        IMTLogFactory.reservation(iUser, logContent);
+        IMTLogFactory.reservation(iUser, logContent,"茅台预约申购");
         //预约后延迟领取耐力值
         getEnergyAwardDelay(iUser);
     }
@@ -235,7 +226,7 @@ public class IMTServiceImpl implements IMTService {
                     logContent += "执行报错--[申购耐力值]:" + e.getMessage();
                 }
                 //日志记录
-                IMTLogFactory.reservation(iUser, logContent);
+                IMTLogFactory.reservation(iUser, logContent,"耐力值获取");
             }
         };
         new Thread(runnable).start();
@@ -310,6 +301,8 @@ public class IMTServiceImpl implements IMTService {
     @Override
     public void getTravelReward(IUser iUser) {
         String logContent = "";
+        String substring1 = "耐力不足";
+        String substring2 = "无可领取";
         try {
             String s = travelReward(iUser);
             logContent += "[获得旅行奖励]:" + s;
@@ -318,7 +311,12 @@ public class IMTServiceImpl implements IMTService {
             logContent += "执行报错--[获得旅行奖励]:" + e.getMessage();
         }
         //日志记录
-        IMTLogFactory.reservation(iUser, logContent);
+        //日志记录
+        if(logContent.contains(substring2)){
+            IMTLogFactory.reservation(iUser, logContent,"","本月旅行奖励已满");
+        }else if( ! logContent.contains(substring1)){
+            IMTLogFactory.reservation(iUser, logContent,"获得旅行奖励");
+        }
     }
 
     /**
@@ -570,7 +568,7 @@ public class IMTServiceImpl implements IMTService {
                     // 预约时间在24小时内的
                     if (item.getInteger("status") == 2 && DateUtil.between(item.getDate("reservationTime"), new Date(), DateUnit.HOUR) < 24) {
                         String logContent = DateUtil.formatDate(item.getDate("reservationTime")) + " 申购" + item.getString("itemName") + "成功";
-                        IMTLogFactory.reservation(iUser, logContent);
+                        IMTLogFactory.reservation(iUser, logContent, "申购查询");
                     }
                 }
             } catch (Exception e) {
