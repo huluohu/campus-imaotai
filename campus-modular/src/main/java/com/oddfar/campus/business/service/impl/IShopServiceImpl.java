@@ -101,6 +101,7 @@ public class IShopServiceImpl extends ServiceImpl<IShopMapper, IShop> implements
         }
 
         String res = HttpUtil.get("https://static.moutai519.com.cn/mt-backend/xhr/front/mall/index/session/get/" + dayTime);
+        logger.info(String.format("res:%s", res));
         //替换 current_session_id 673 ['data']['sessionId']
         JSONObject jsonObject = JSONObject.parseObject(res);
 

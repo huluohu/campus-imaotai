@@ -28,13 +28,13 @@
         prop="content"
         :show-overflow-tooltip="true"
       />
-      <el-table-column label="图片" align="center" prop="picture">
+      <el-table-column label="图片" align="center" prop="pictureV2">
         <template slot-scope="scope">
-          <el-image
+          <el-imagex
             style="width: 100px; "
             :src="scope.row.picture"
             fit="fit"
-          ></el-image>
+          ></el-imagex>
         </template>
       </el-table-column>
       <el-table-column

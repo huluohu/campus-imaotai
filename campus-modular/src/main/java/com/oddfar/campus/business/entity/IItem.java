@@ -45,6 +45,11 @@ public class IItem {
      */
     private String picture;
 
+    /**
+     * 包含价格的图片
+     */
+    private String pictureV2;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
@@ -56,6 +61,7 @@ public class IItem {
         this.title =  item.getString("title");;
         this.content =  item.getString("content");;
         this.picture =  item.getString("picture");;
+        this.pictureV2 =  item.getString("pictureV2");;
         this.createTime = new Date();
     }
 }
