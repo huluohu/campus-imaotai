@@ -15,19 +15,32 @@
 
 i茅台app，每日自动预约茅台
 
-- [X] 平台注册账号
-- [X] 添加多个用户
-- [X] 自动预约
-- [X] 类型选择（本市出货量最大的门店，或位置附近门店）
-- [X] 自动旅行
-- [X] 首次旅行分享
-- [X] 获取申购耐力值
-- [X] 自定义时间/随机时间预约或旅行
-- [X] 申购结果消息推送
+- [x] 平台注册账号
+- [x] 添加多个用户
+- [x] 自动预约
+- [x] 类型选择（本市出货量最大的门店，或位置附近门店）
+- [x] 自动旅行
+- [x] 首次旅行分享
+- [x] 获取申购耐力值
+- [x] 自定义时间/随机时间预约或旅行
+- [x] 申购结果消息推送
 
 此项目使用 **Campus** 进行编写：[https://github.com/oddfar/campus](https://github.com/oddfar/campus)
 
 ## 快速开始
+
+#### 打包后端
+
+```bash
+# 清理缓存并重新打包
+mvn clean package
+
+# 切换到`campus-modular`目录
+cd campus-modular
+
+# 打Docker镜像
+docker buildx build --builder mybuildx  -t fooololo/lumaozi:latest  --platform linux/amd64,linux/arm64  --push .
+```
 
 #### 部署后端
 
@@ -97,10 +110,10 @@ npm run build:prod
 ## 友情链接
 
 - 本项目其他版
-
+  
   C#：[https://github.com/lisongkun/hygge-imaotai](https://github.com/lisongkun/hygge-imaotai)
 - 葫芦娃项目
-
+  
   yize8888-maotai：https://github.com/yize8888/maotai
 
 ## 声明
@@ -118,3 +131,4 @@ npm run build:prod
 
 特别感谢 [JetBrains](https://www.jetbrains.com/?from=campus) 为开源项目提供免费的 [IntelliJ IDEA](https://www.jetbrains.com/idea/?from=campus) 等 IDE 的授权
 [<img src="https://gcore.jsdelivr.net/gh/oddfar/campus-imaotai/.github/jetbrains-variant.png" width="200"/>](https://www.jetbrains.com/?from=campus)
+
