@@ -29,11 +29,14 @@ i茅台app，每日自动预约茅台
 
 ## 快速开始
 
-#### 打包后端
+#### 打包后端[](https://)
 
 ```bash
 # 清理缓存并重新打包
 mvn clean package
+
+# 可选，如果构建失败可尝试执行
+mvn -fn -T4 clean install
 
 # 切换到`campus-modular`目录
 cd campus-modular
