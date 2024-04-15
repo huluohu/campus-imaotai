@@ -13,6 +13,7 @@ import cn.hutool.http.Method;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.oddfar.campus.business.domain.IMTCacheConstants;
 import com.oddfar.campus.business.entity.IUser;
 import com.oddfar.campus.business.service.IMTLogFactory;
 import com.oddfar.campus.business.service.IMTService;
@@ -71,7 +72,7 @@ public class IMTServiceImpl implements IMTService {
 
     @Override
     public String getMTVersion() {
-        String mtVersion = Convert.toStr(redisCache.getCacheObject("mt_version"));
+        String mtVersion = Convert.toStr(redisCache.getCacheObject(IMTCacheConstants.MT_VERSION));
         if (StringUtils.isNotEmpty(mtVersion)) {
             return mtVersion;
         }
@@ -83,7 +84,7 @@ public class IMTServiceImpl implements IMTService {
             mtVersion = matcher.group(1);
             mtVersion = mtVersion.replace("版本 ", "");
         }
-        redisCache.setCacheObject("mt_version", mtVersion);
+        redisCache.setCacheObject(IMTCacheConstants.MT_VERSION, mtVersion);
 
         return mtVersion;
 
@@ -91,7 +92,7 @@ public class IMTServiceImpl implements IMTService {
 
     @Override
     public void refreshMTVersion() {
-        redisCache.deleteObject("mt_version");
+        redisCache.deleteObject(IMTCacheConstants.MT_VERSION);
         getMTVersion();
     }
 
@@ -232,8 +233,9 @@ public class IMTServiceImpl implements IMTService {
         new Thread(runnable).start();
 
     }
+
     // 领取小茅运
-    public void receiveReward(IUser iUser){
+    public void receiveReward(IUser iUser) {
         String url = "https://h5.moutai519.com.cn/game/xmTravel/receiveReward";
         HttpRequest request = HttpUtil.createRequest(Method.POST, url);
 
@@ -247,14 +249,14 @@ public class IMTServiceImpl implements IMTService {
         HttpResponse execute = request.execute();
         JSONObject body = JSONObject.parseObject(execute.body());
 
-        if(body.getInteger("code") != 2000){
+        if (body.getInteger("code") != 2000) {
             String message = "领取小茅运失败";
             throw new ServiceException(message);
         }
     }
 
-    public void shareReward(IUser iUser){
-        logger.info("「领取每日首次分享获取耐力」："+iUser.getMobile());
+    public void shareReward(IUser iUser) {
+        logger.info("「领取每日首次分享获取耐力」：" + iUser.getMobile());
         String url = "https://h5.moutai519.com.cn/game/xmTravel/shareReward";
         HttpRequest request = HttpUtil.createRequest(Method.POST, url);
 
@@ -268,7 +270,7 @@ public class IMTServiceImpl implements IMTService {
         HttpResponse execute = request.execute();
         JSONObject body = JSONObject.parseObject(execute.body());
 
-        if(body.getInteger("code") != 2000){
+        if (body.getInteger("code") != 2000) {
             String message = "领取每日首次分享获取耐力失败";
             throw new ServiceException(message);
         }
@@ -559,7 +561,7 @@ public class IMTServiceImpl implements IMTService {
                     throw new ServiceException(message);
                 }
                 JSONArray itemVOs = jsonObject.getJSONObject("data").getJSONArray("reservationItemVOS");
-                if(Objects.isNull(itemVOs) || itemVOs.isEmpty()){
+                if (Objects.isNull(itemVOs) || itemVOs.isEmpty()) {
                     logger.info("申购记录为空: user->{}", iUser.getMobile());
                     continue;
                 }
@@ -572,7 +574,7 @@ public class IMTServiceImpl implements IMTService {
                     }
                 }
             } catch (Exception e) {
-                logger.error("查询申购结果失败:失败原因->{}", e.getMessage(),e);
+                logger.error("查询申购结果失败:失败原因->{}", e.getMessage(), e);
             }
 
         }
