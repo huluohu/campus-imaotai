@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * I茅台预约商品列表Controller
@@ -35,7 +36,8 @@ public class IItemController {
     @GetMapping(value = "/list", name = "查询I茅台预约商品列列表")
     public R list() {
         List<IItem> iItems = iItemMapper.selectList();
-
+        iItems.parallelStream()
+                .forEach(i -> i.setPicture(i.getPictureV2()));
         return R.ok(iItems);
     }
 
