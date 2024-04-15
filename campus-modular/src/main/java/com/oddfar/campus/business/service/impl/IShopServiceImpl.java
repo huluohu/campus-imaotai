@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -37,12 +38,12 @@ import java.util.stream.Collectors;
 public class IShopServiceImpl extends ServiceImpl<IShopMapper, IShop> implements IShopService {
 
 
-    @Autowired
+    @Resource
     IShopMapper iShopMapper;
-    @Autowired
+    @Resource
     IItemMapper iItemMapper;
 
-    @Autowired
+    @Resource
     RedisCache redisCache;
 
     @Override
@@ -102,7 +103,7 @@ public class IShopServiceImpl extends ServiceImpl<IShopMapper, IShop> implements
         }
 
         String res = HttpUtil.get("https://static.moutai519.com.cn/mt-backend/xhr/front/mall/index/session/get/" + dayTime);
-        logger.info(String.format("res:%s", res));
+        log.info(String.format("res:%s", res));
         //替换 current_session_id 673 ['data']['sessionId']
         JSONObject jsonObject = JSONObject.parseObject(res);
 
